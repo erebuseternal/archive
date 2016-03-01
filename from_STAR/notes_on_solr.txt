@@ -1,0 +1,57 @@
+These are just notes on what I am learning in Solr.
+First, it seems the solr.home that is being referred
+to in the documentation is simply Solr/server/solr
+Within that you need a folder that contains your core
+core.properties file with the name that you want.
+Then, you need a conf folder in that same directory
+with a solrconfig.xml file (you can of course change the)
+name, but doing so requires that you specify that in
+core.properties. And similar stuff for the other files
+that go in config (at least I would guess that). Then,
+on starting solr, it will find your core and build it!
+
+1:41 p.m. Dec. 14, 2015
+
+Also the instance directory is going to be the directory
+in which the core.properties is placed
+
+So I have made a new schema file that Solr will actually
+accept. You have to declare with the xml at the beginning
+then have the schema tag with name and version and then
+you add fieldsTypes and then your fields (with the appropriate)
+names and type. Finally, for update log to work you need to
+include the _version_ field in order for update logs to work.
+I have it default to one as it won't actually be specified
+in the documents created by simple scraper. Anyways, my schema
+contains Title (key), InfoBox, and Introduction fields!
+
+Also, the schema file goes in the config for the core and should
+be named schema.xml (unless you specify another name in core.properties)
+
+2:23 p.m. Dec. 15, 2015
+
+To delete all use the command <delete><query>*:*</query></delete>
+
+To index from a file:
+curl http://localhost:8983/solr/core1/update -H "Content-Type: text/xml"
+  --data-binary @filename
+
+To query a file you need the prefix:
+https://http://localhost:8983/solr/core1/select?
+and then you add in q= and then for example *:* to query everything.
+the first value before the colon is going to be a field name and then
+the second value is going to be a value that you are searching for
+
+To limit the fields you use fl= and then the fields you wish to limit.
+
+Finally to turn on faceting you use facet=true
+facet.field turns on the faceting of certain fields
+facet.contains limits what can show up in the results (i.e. what is queried
+over)
+
+facet takes as its default query finding the various terms and then counting
+the number of instances of each.
+
+ALSO! If I add a word to the stopwords file in core1/conf then
+Solr just ignores that word! (Of course you have to reindex to allow
+changes to take effect, but very cool!)

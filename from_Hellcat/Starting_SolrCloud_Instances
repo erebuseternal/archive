@@ -1,0 +1,25 @@
+Question: How do I start Solr Cloud?
+
+Okay, so here goes:
+you need to have a home directory for each instance you want
+to start up. Inside at a minimum must be solr.xml (I'm using the
+one from the cloud examples... so we shall have to figure out
+what's going on in them) Then for each instance call:
+
+bin/solr start -p <port #> -s <location for this node's solr home> -z <list of zookeeper addresses>
+
+After this you are at least going to have to start calling
+bin/solr create -c mycollection -d config_name
+
+This will, in theory, create the shards folders with the data directory
+and a core properties with what you want.
+
+Next questions:
+What does solr.xml do exactly?
+What is a solrconfig? How does it work?
+What is available in the collection creation api
+
+After these things have been answered we can go ahead and index some shit!
+And then search it!
+
+So far I'm really loving solr though

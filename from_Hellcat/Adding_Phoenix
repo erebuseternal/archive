@@ -1,0 +1,14 @@
+Question: Now that I have a pseudo-cluster, how do I put phoenix on top?
+
+So you download the phoenix binary from online and unpackage it.
+Then you do the whole renaming thing if you like.
+Then take the phoenix-<version>-server.jar and put it in the hbase
+lib directory. Then restart HBase and go to /bin in the phoenix directory
+and enter the SQL command line with ./sqlline.py <zookeeper client address
+from HBase configuration>
+
+# Note that if you just run ./sqlline.py it will assume zookeeper is on
+# localhost:2181, mine for example was on localhost:2081, so I had to specify
+# the client port.
+
+Anyways... this is fucking cool! :D

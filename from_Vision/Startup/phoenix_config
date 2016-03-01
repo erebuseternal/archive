@@ -1,0 +1,4 @@
+# this is the configuration file for phoenix
+Hadoop /root/Hellcat/hadoop
+HBase /root/Hellcat/hbase
+Phoenix /root/Hellcat/phoenix

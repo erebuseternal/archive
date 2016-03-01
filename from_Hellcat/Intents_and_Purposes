@@ -1,0 +1,49 @@
+This is a list of questions and answers (if answers make sense to the questions).
+Its essentially going to be my all-purpose
+cookbook. As I learn how to do various things, I will record stuff here so that
+in the case that I have to leave this project for a while I can quickly relearn
+everything I have found useful so far.
+
+Question: How does one setup an HBase psuedo-cluster?
+Answer: Basic HBase Installation
+
+Question: How do I start Solr Cloud?
+Answer: Starting_SolrCloud_Instances
+
+Question: How do I set up an external zookeeper ensemble for Solr?
+Answer: check out the corresponding section in the Solr referenced guide.
+
+Question: How do I start a solr cloud instance on a different machine?
+Answer: I'm pretty sure you start it like any other instance. Remember that
+you are passing it the zookeepers, so they will keep things in communication.
+Brilliant!!!!!
+
+Question: What does solr.xml do exactly?
+Answer: It contains a solrcloud element that defines certain properties about
+solr cloud (note an instance will try to download from zookeeper first and then
+default to the solr_home set for that instance [also known as node]). It also
+defines the shardhandlerfactory. So I'll probably just use the one in the cloud
+example that comes with Solr.
+
+Question: What is a solrconfig? How does it work?
+Answer: p.g. 437 in the reference guide. It is essentially a folder within
+the base configsets directory, containing schema, solrconfig, and additional
+files related to configuration. The idea is you can upload them to zookeeper
+and then when creating a collection you just pass the name of the config set in.
+Once again, love Solr.
+
+Question: What is available in the collection creation api?
+Answer: p.g. 522 of the reference guide
+
+Question: Basic nginx install?
+Answer: Installing_nginx
+
+Question: What python server are we going to put behind nginx
+
+Question: Better grip on Hadoop and HBase configuration
+
+Question: Now that I have a pseudo-cluster, how do I put phoenix on top?
+Answer: Adding_Phoenix
+
+Question: Is indexing and searching essentially the same as in a standalone Solr
+instance? Try it out and write out instructions on how to do things.

@@ -1,0 +1,13 @@
+h1 {
+  key: text;
+}
+
+p {
+  key: get(h1>);
+  val: text;
+}
+
+a {
+  key: get(p^);
+  val: text;
+}

@@ -1,0 +1,19 @@
+QUESTION: Basic nginx install?
+
+Download the source of the latest stable version.
+Extract it and move inside that directory.
+Do the following:
+./configure
+make
+make install
+
+It will install it in the directory /usr/local/nginx
+
+To start it, just go ahead and go into the /usr/local/nginx/sbin
+and run nginx
+
+To add pages, the default root is the html directory is usr/local/nginx
+
+To stop (using the same directory as above):
+./nginx -s stop
+(same idea for reload and all of that)

@@ -1,0 +1,180 @@
+QUESTION: How does one setup an HBase psuedo-cluster?
+
+#### IGNORE THIS BIT FOR NOW ######
+First, identify if your system is 32 or 64 bit with the command:
+  uname -a
+
+  # note, i686 denotes 32 bit
+
+Next we have to deal with Hostnames and DNS
+
+  First you edit /etc/hostname to set the hostname for this specific machine.
+  Next you need to go into the hosts file in /etc and change from:
+    127.0.0.1     localhost
+    127.0.1.1     <some default name>
+
+  to
+    127.0.0.1     localhost
+    #127.0.1.1   <some default name>
+    <your IP address>  <the hostname you just set>
+
+    #note it is better if your ip address is static (as you don't have to worry
+    #about it changing)
+
+  Now you are going to want the IP address with the corresponding hostname for
+  every single machine in your cluster in every machine's hosts file.
+
+Next we need to install the SSH server and client (if it isn't already
+installed). Run the following commands (or the equivalent ones for your
+dist. of Linux).
+  dnf install openssh
+  dnf install openssh-server
+  dnf install openssh-clients
+
+  Next run (on the master machine)
+    ssh-keygen -t rsa -P "" and just keep hitting enter till you get back to the
+    normal terminal
+  this generates a public/private keypair. Next create (within the hidden home/.ssh
+  folder that contains your keypair) a file called authorized_keys and copy and
+  paste your public key there.
+  Next, create such a folder (in the same place) for each of the slaves and copy
+  the same key there as well.
+  All of this is going to let you login through ssh without a password.
+
+  #note to start ssh: service sshd start
+
+Next make sure that ntp service is installed with a simple dnf command
+
+########This is where to start for pseudo distributed mode!!! (You will only
+  be using localhost after all)#########
+
+BASIC HADOOP INSTALLATION FOUND ONLINE
+
+Next we are going to actually install Hadoop.
+
+  First, go get the binary version in tar format from hadoop's website
+  If the extenstion is tar.gz then extract with:
+  tar -xzf <name of file>
+
+  Go ahead and rename it to something nicer with:
+  mv <name of extracted file> hadoop
+
+  Next within the etc/hadoop directory in your hadoop home you will want to add
+  the host names of the nodes on which you will run DataNode services.
+
+  Within the same directory do the following edits:
+  core-site.xml
+    <configuration>
+      <property>
+        <name>fs.default.name</name>
+        <value>hdfs://localhost:9000</value>
+      </property>
+    </configuration>
+
+  hdfs-site.xml
+    <configuration>
+      <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+      </property>
+
+      <property>
+        <name>dfs.name.dir</name>
+        <value>file:///home/hadoop/hadoopdata/hdfs/namenode</value>
+      </property>
+
+      <property>
+        <name>dfs.data.dir</name>
+        <value>file:///home/hadoop/hadoopdata/hdfs/datanode</value>
+      </property>
+    </configuration>
+
+  mapred-site.xml
+    <configuration>
+      <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+      </property>
+    </configuration>
+
+  yarn-site.xml
+    <configuration>
+      <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+      </property>
+    </configuration>
+
+Next we are going to need to set JAVA_HOME for hadoop to use:
+  export JAVA_HOME="/etc/alternatives/jre_1.8.0_openjdk"
+
+  and go to /etc/profile.d and create a file called custom.sh with the above line
+  written in it, so the above gets set on boot up
+
+Next we need to format the machine that will run as namenode to be a namenode.
+To do this go into the bin directory for your hadoop installation (on the namenode
+machine) and run
+  ./hdfs namenode -format
+
+Now enter the sbin directory and run
+  ./start-dfs.sh
+  ./start-yarn.sh
+
+And now test things by going to your browser and directing it to localhost:50070
+
+YAY!!!!! That's the basic Hadoop installation I have found online. :D
+
+Next download the latest stable release (binary) of HBase from online. And unzip
+it as well. (You can also rename it something nice).
+
+In the conf directory in hbase home directory modify the following files:
+  hbase-site.xml
+  <property>
+    <name>hbase.rootdir</name>
+    <value>hdfs://localhost:9000/hbase</value>
+    <description>Here, we need to enter Hadoop NameNode address followed by the hbase directory name where hbase files are to be stored.</description>
+  </property>
+
+  <property>
+    <name>hbase.cluster.distributed</name>
+    <value>true</value>
+    <description>This parameter decides whether HBase will run in local mode or distributed mode.</description>
+  </property>
+
+  <property>
+    <name>hbase.tmp.dir</name>
+    <value>/mnt/disk1/tmp</value>
+    <description>Using this parameter, we specify tmp directory for HBase.</description>
+  </property>
+
+  <property>
+    <name>hbase.zookeeper.quorum</name>
+    <value>localhost</value>
+    <description>Using this parameter, we can specify ZooKeeper host machines addressee.</description>
+  </property>
+
+  <property>
+    <name>hbase.zookeeper.property.clientPort</name>
+    <value>2181</value>
+    <description>port at which client can connect to zookeeper</description>
+  </property>
+
+  HBase-env.sh
+    export HBASE_MANAGES_ZK=true (this sets hbase to use an internal zookeeper
+      rather than an external one)
+
+  regionservers
+    localhost - this will be the region server used in pseudo-distributed mode
+
+Then we can go into the bin directory in hbase and call the start-hbase.sh command
+to go ahead and start hbase
+
+./hbase shell called in the bin directory will start up the hbase shell for ya!
+
+And all done!
+
+Note you should start up ssh before trying anything with hbase, had trouble
+connecting to zookeeper once. you should also start hadoop, otherwise it
+doesn't work properly (although I think I turned it on and turned it off
+again and it was fine... so maybe its just environment variables that need to
+be set, and right now they are being set by hadoop)

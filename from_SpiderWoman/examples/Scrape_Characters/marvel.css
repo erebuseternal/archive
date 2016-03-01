@@ -1,0 +1,8 @@
+h3.pi-data-label.pi-secondary-font {
+  key: text;
+}
+
+div.pi-data-value.pi-font {
+  key: get(h3.pi-data-label.pi-secondary-font<);
+  val: text;
+}
