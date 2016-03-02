@@ -1,0 +1,162 @@
+<html>
+<head>
+  <title>MongoDB Chapter 3</title>
+  <link rel="stylesheet" type="text/css" href="chap_3.css"/>
+</head>
+<body>
+  <div class="banner">
+    <h1>Chapter 3</h1>
+    <div class="contents_menu">
+      <a href="../Chapter_2/chap_2.html">Chapter 2</a>
+      <a href="../Chapter_3/chap_3.html">Chapter 3</a>
+      <a href="#">Chapter 4</a>
+    </div>
+  </div>
+  <div class="lesson" id="one">
+    <h2>Insertion and Deletion of Data</h2>
+    <p>For <i>insertion</i>, refer back to <a href="../Chapter_2/chap_2.html">Chapter 2</a></p>
+    <p>For a database 'db' and collection 'collection', to <i>delete</i> you need only
+      run <code>db.collection.remove()</code>. This will remove all data from the
+      collection. To remove only a <i>subset</i>, pass a <i>query</i> into <code>remove</code>. Queries
+      are handled in <a href="../Chapter_4/chap_4.html">Chapter 4</a>.</p>
+    <p>To simply <i>drop all of the records</i> in a collection use:</p>
+    <p class="code"><code>db.collection.drop()</code></p>
+
+  </div>
+  <div class="lesson" id="two">
+    <h2>Updating Data: A Summary</h2>
+    <p>For this project, use the <code>tmp.people</code> collection created in
+      <a href="../Chapter_2/chap_2.html">Chapter 2</a> and do the following update:
+    </p>
+  </div>
+  <div class="lesson" id="three">
+    <h2>Project: Amy A Mozart has a Birthday!</h2>
+    <p>Because Amy A Mozart has had a birthday, her <i>age needs to be incremented</i>.</p>
+    <button class="accordion">Solution</button>
+    <div class="solution"><p class="code"><code>db.people.update(query, {"$inc" : {"age" : 1}})</code></p></div>
+    <button class="accordion query">Query</button>
+    <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "amy", "middle" : "a", "last" : "mozart"}}</code></p></div>
+  </div>
+
+  <div class="lesson" id="four">
+    <h2>Project: Another Year Goes By</h2>
+    <p>Another year has gone by and <i>everyone's age needs to be incremented</i>.</p>
+    <button class="accordion">Solution</button>
+    <div class="solution"><p class="code"><code>db.people.update(query, {"$inc" : {"age" : 1}}, false, true)</code></p></div>
+    <button class="accordion query">Query</button>
+    <div class="solution query_text"><p class="code"><code>{}</code></p></div>
+  </div>
+
+  <div class="lesson" id="five">
+    <h2>Project: Green Hair is Cool</h2>
+    <p>Greg L Smith has decided that green hair is cool and therefore <i>changed
+      his hair color to green</i>. Make sure our people collection reflects this.</p>
+    <button class="accordion">Solution</button>
+    <div class="solution"><p class="code"><code>db.people.update(query, {"$set" : {"hair" : "green"}})</code></p></div>
+    <button class="accordion query">Query</button>
+    <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "greg", "middle" : "l", "last" : "smith"}}</code></p></div>
+  </div>
+
+  <div class="lesson" id="six">
+    <h2>Project: Greg is Horrified</h2>
+    <p>Greg remembered he has an important interview coming up, freaks out and shaves
+      his head. This means he has no hair color. <i>Remove the hair attribute from his
+      document in people</i> to reflect this.</p>
+      <button class="accordion">Solution</button>
+      <div class="solution"><p class="code"><code>db.people.update(query, {"$unset" : "hair"})</code></p></div>
+      <button class="accordion query">Query</button>
+      <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "greg", "middle" : "l", "last" : "smith"}}</code></p></div>
+  </div>
+
+  <div class="lesson" id="seven">
+    <h2>Project: Hellen Loves Starfruit... but not every fruit</h2>
+    <p>Hellen B Kant loves starfruit, but she doesn't want people to think she likes just
+      any fruit. Therefore she wants to keep her faves list to three. <i>Add starfruit
+        to her fruit list, while keeping the list to three elements</i>.</p>
+        <button class="accordion">Solution</button>
+        <div class="solution"><p class="code"><code>db.people.update(query, {"$push" : {"fruit" : "starfruit", "$slice" : -3}})</code></p></div>
+        <button class="accordion query">Query</button>
+        <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "hellen", "middle" : "b", "last" : "kant"}}</code></p></div>
+    </div>
+
+    <div class="lesson" id="eight">
+      <h2>Project: Fruit Is Awesome!</h2>
+      <p>Sally K Kant, Hellen's sister, has found a whole bunch of new fruits she loves,
+        Dragon fruit, grapes, and pears. She doesn't mind having tons of favorites, but
+        doesn't remember what she liked before. <i>Add in her new favorites without repeats</i>.</p>
+        <button class="accordion">Solution</button>
+        <div class="solution"><p class="code"><code>db.people.update(query, {"$addToSet" : {"fruit" : {"$each" : ["dragon fruit", "grape", "pear"]}}})</code></p></div>
+        <button class="accordion query">Query</button>
+        <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "sally", "middle" : "k", "last" : "kant"}}</code></p></div>
+    </div>
+
+    <div class="lesson" id="nine">
+      <h2>Project: The Kants are Really Humes... </i>a priori</i></h2>
+      <p>The Kant family is sick and tired of rationalism and want something new. To
+        reflect this they have all changed their last name to Hume. <i>Make our people
+          collection reflect this</i>.</p>
+        <button class="accordion">Solution</button>
+        <div class="solution"><p class="code"><code>db.people.update(query, {"$set" : {"name.last" : "hume"}}, false, true)</code></p></div>
+        <button class="accordion query">Query</button>
+        <div class="solution query_text"><p class="code"><code>{"name.last" : "kant"}</code></p></div>
+    </div>
+
+    <div class="lesson" id="ten">
+      <h2>Project: Lovely Sayings</h2>
+      <p>Joe E Smith has some quotes he wants to keep in our database for safekeeping.
+        <i>Add the following objects to a sayings attribute in his document</i>.</p>
+      <p class="code"><code>{"rating" : 10, "quote" : "Don't take life to seriously,
+        You'll never escape it alive anyway.", "author" : "unknown"}</code></br>
+      <code>{"rating" : 2, "quote" : "Never forget that only dead fish swim with the stream",
+      "author" : "malcolm muggeridge"}</code></p>
+      <button class="accordion">Solution</button>
+      <div class="solution"><p class="code"><code>doc1 = {"rating" : 10, "quote" : "Don't take life to seriously,
+        You'll never escape it alive anyway.", "author" : "unknown"}</code></br><code>doc2 = {"rating" : 2, "quote" : "Never forget that only dead fish swim with the stream",
+        "author" : "malcolm muggeridge"}</code></br><code>db.people.update(query, {"$set" : {"sayings" : [doc1, doc2]}})</code></p></div>
+      <button class="accordion query">Query</button>
+      <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "joe", "middle" : "e", "last" : "smith"}}</code></p></div>
+    </div>
+
+
+    <div class="lesson" id="eleven">
+      <h2>Project: A New Saying</h2>
+      <p>Joe E Smith found a new saying and wants to add it to his list. But he wants
+        to make sure they stay sorted by rating. <i>Do this for him</i>, the document
+        is:</p>
+      <p class="code"><code>{"rating" : 10, "quote" : "Only the wisest and stupidest of men never change.",
+        "author" : "Confucious"}</code></p>
+        <button class="accordion">Solution</button>
+        <div class="solution"><p class="code"><code>doc1 = {"rating" : 10, "quote" : "Only the wisest and stupidest of men never change.",
+          "author" : "Confucious"}</code></br><code>db.people.update(query, {"$push" : {"sayings" : doc1, "$sort" : {"rating" : 1}}})</code></p></div>
+        <button class="accordion query">Query</button>
+        <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "joe", "middle" : "e", "last" : "smith"}}</code></p></div>
+      </div>
+
+    <div class="lesson" id="twelve">
+      <h2>Project: Secure First Place</h2>
+      <p>Joe wants to make sure his first staying stays his first saying. Therefore
+        he would like to jack up its rating to 100!. <i>Without using what the first
+          record actually is, change the first record's rating to 100</i>.</p>
+      <button class="accordion">Solution</button>
+      <div class="solution"><p class="code"><code>doc1 = {"rating" : 10, "quote" : "Only the wisest and stupidest of men never change.",
+            "author" : "Confucious"}</code></br><code>db.people.update(query, {"$set" : {"sayings.0.rating" : 100}})</code></p></div>
+      <button class="accordion query">Query</button>
+      <div class="solution query_text"><p class="code"><code>{"name" : {"first" : "joe", "middle" : "e", "last" : "smith"}}</code></p></div>
+    </div>
+  <div class="gap"></div>
+
+
+  <script>
+  /* Toggle between adding and removing the "active" and "show" classes when the user clicks on one of the "Section" buttons. The "active" class is used to add a background color to the current button when its belonging panel is open. The "show" class is used to open the specific accordion panel */
+  var acc = document.getElementsByClassName("accordion");
+  var i;
+
+  for (i = 0; i < acc.length; i++) {
+      acc[i].onclick = function(){
+          this.classList.toggle("active");
+          this.nextElementSibling.classList.toggle("show");
+      }
+  }
+  </script>
+</body>
+</html>

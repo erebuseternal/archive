@@ -1,0 +1,71 @@
+<html>
+<head>
+  <title>MongoDB Chapter 2</title>
+  <link rel="stylesheet" type="text/css" href="chap_2.css"/>
+</head>
+<body>
+  <div class="banner">
+    <h1>Chapter 2</h1>
+    <div class="contents_menu">
+      <a href="../Chapter_2/chap_2.html">Chapter 2</a>
+      <a href="../Chapter_3/chap_3.html">Chapter 3</a>
+      <a href="#">Chapter 4</a>
+    </div>
+  </div>
+  <div class="lesson" id="one">
+    <h2>Creating a Database</h2>
+    <p>To begin, we must first <i>start mongo</i>. Within terminal <b>go to
+      <code>[mongo-home]/bin</code> </b> and <b>execute</b> the following command:</p>
+    <p class="code"><code>./mongod</code></p>
+    <p>This starts mongo's server. </br> Now, we will <i>open mongo's shell</i> to
+      interact with the server. In the same directory, <b>execute</b>:</p>
+    <p class="code"><code>./mongo</code></p>
+    <p>You should find yourself in a shell prompt not unlike terminal. This is mongo's
+      javascript shell. We will work from here for the next few projects. </p>
+    <p>Next we are going to <i>create a database named tmp</i>. This is super easy.
+      Simply <b>execute</b>: </p>
+    <p class="code"><code>use tmp</code></p>
+    <p>Now tmp will be store in the shell variable <code>db</code>.</p>
+  </div>
+
+  <div class="lesson" id="two">
+    <h2>Adding Some Data</h2>
+    <p>Our next step will be to add some data. So first we will <i>create the data</i>
+      we want to add. Remember that mongo works in documents and is very flexible
+      about the forms those documents take. We are going to create documents that
+      showcase that flexibility.</p>
+    <p>To create our data <b>execute</b> the following lines of code in mongo's shell</p>
+    <p class="code"><code>bear = {'name': 'bear', 'size': 100, 'color': 'brown'}</code>
+    </br><code>bird = {'name' : 'bird', 'size' : 'many', 'color' : ['red', 'brown', 'black']}</code>
+    </br><code>cat = {'name' : 'cat', 'domesticated' : true, 'color' : 'white', 'size' : 10}</code>
+    </p>
+    <p>Next we will <i>insert this data into mongo</i>. To do this use we need a
+      collection, but lucky for us we can <i>create the collection</i> at the same time
+      as we insert. We will call our collection <i>animals</i>. To do both we simply
+      <b>execute for each document</b>:</p>
+      <p class="code"><code>db.animals.insert([name_of_document])</code></p>
+      <p>For example to insert our bear document:</p>
+      <p class="code"><code>db.animals.insert(bear)</code></p>
+    <p>Our data has now been inserted and we can <i>see it</i> by executing:</p>
+    <p class="code"><code>db.animals.find()</code></p>
+  </div>
+  <div class="lesson" id="three">
+    <h2>Running External JavaScript Code</h2>
+    <p>Finally, because mongo's shell is just a JavaScript interpreter we can <i>run
+      external code in the shell</i>. We are going to use that feature <i>to upload a lot
+      of data</i>, which we will use later for other projects.</p>
+    <p>Seeing as our focus is mongo, rather than having you write your own JavaScript
+      file to upload the data I am expecting you to have in the upcoming projects, I'll
+      just have you <b>download</b> some code I wrote: </p>
+      <a href="create_data.js" download="">JavaScript Code</a>
+    <p>This code, when run, will upload 2,912 documents to a list <code>people</code></p>
+    <p>To run it, we use the <code>load</code> function in mongo's shell. If [code_directory]
+      is where you placed the code you downloaded, then all you have to do is <b>execute</b>:</p>
+    <p class="code"><code>load("[code_directory]/create_data.js")</code></p>
+    <p>Now that we have the records we can <i>upload them all at once to a new collection people</i>. We do it
+      by <b>executing</b> the following:</p>
+    <p class="code"><code>db.people.batchInsert(people)</code></p>
+  </div>
+  <div class="gap"></div>
+</body>
+</html>

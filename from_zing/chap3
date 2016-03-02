@@ -1,0 +1,1 @@
+Added people using create_data.js with load and then db.people.insert(people)

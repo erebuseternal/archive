@@ -1,0 +1,99 @@
+body {
+  background-image: url(../rocks.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.banner a {
+  display: block;
+  text-decoration: none;
+  font-size: 1.5em;
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.banner {
+  width: 150px;
+  position: fixed;
+}
+
+.banner h1 {
+  border-color: rgb(0, 153, 204);
+  border-style: solid;
+  font-size: 1.5em;
+  text-align: center;
+  background-color: rgb(0, 153, 204);
+  color: white;
+}
+
+.banner:hover .contents_menu {
+  display: block;
+}
+
+
+
+.contents_menu {
+  display: none;
+  width: 150px;
+  position: relative;
+  top: -20px;
+  border-radius: 0px 0px 10px 10px;
+  background-color: rgb(0, 153, 204);
+}
+
+.lesson {
+  position: relative;
+  width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: rgb(232,232,232);
+  border-radius: 10px;
+  padding: 0px 0px 10px 0px;
+}
+
+#one {
+  top: 100px;
+}
+
+#two {
+  top: 150px;
+}
+
+#three {
+  top: 200px;
+}
+
+.lesson p {
+  padding: 0px 10px 0px 10px;
+  line-height: 20px;
+}
+
+.lesson h2 {
+  background-color: grey;
+  text-align: center;
+  width: 100%;
+
+}
+
+.code {
+  text-align: center
+}
+
+code {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.gap {
+  position: relative;
+  top: 100px;
+  height: 30px;
+}
+
+.lesson a {
+  padding: 10px;
+  color: black;
+  font-weight: bold;
+
+}

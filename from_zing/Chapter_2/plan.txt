@@ -1,0 +1,13 @@
+Start out by starting mongod
+enter through mongo
+change(create) a database named tmp
+add a few documents demonstrating the various features:
+  * multiple formats for the same collection
+  * different types for the same field
+  * arrays
+look at these documents to see their id's
+remove these documents.
+
+write some javascript using some data that I provide.
+run it in mongo.
+See that there is some new data there in mongo

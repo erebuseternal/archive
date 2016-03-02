@@ -1,0 +1,18 @@
+#powerbox p {
+  key: bold;
+  val: unmarkedtext;
+}
+
+.powergrid .p-left {
+  key: text;
+}
+
+.powergrid .ratingvalue {
+  key: get(.powergrid .p-left<);
+  val: width;
+}
+
+#biobody p {
+  key: content;
+  val: text;
+}

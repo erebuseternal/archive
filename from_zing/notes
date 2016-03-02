@@ -1,0 +1,56 @@
+Updates
+update(query, update_document, is_upsert, is_for_all)
+
+$inc, $set, $unset, $addToSet, $push, $pull, $pop, $each, $slice, $sort
+document.attribute, list.index
+
+we have a list of statements each of these modifiers $inc, $set, $unset, $addToSet,
+$push, $pull, $pop goes on the outside, we have a colon, and then we have a document
+containing the input to that modifier. If it is a simple key value pair, then we have
+just that separated by a colon. But, for example, if we have a complex value (like
+an $each) then we get {key : {$each : array}}. Note our just normal value can
+be a document.
+
+$slice and $sort can only be used with $each (and is part of the document $each is
+an attribute for).  $sort has to be used on an element of the documents being added
+to a list it takes as its value a document containing as key that attribute, and as
+value a 1 or -1 designating sort order. $slice take a negative value, and is the
+number of elements you want to keep.
+
+Finally because everything is documents, you can attributes by object.attribute.
+In the case of lists if you have an object that has a list of objects you can do the
+same using: object.index.attribute
+
+Queries
+find(query, to_keep)
+.sort
+.limit
+.skip
+lazily evaluated, (therefore order doesn't matter)
+
+returns cursor
+while (cursor.hasNext()){
+cursor.next()
+}
+
+$gt, $gte, $lt, $lte, $ne, $in, $nin, $or, $and, $not,
+$all, $size, $slice, $elemMatch, $where
+
+For queries we have a document composed of a series of statements
+each of these statements must be true for each document grabbed by
+the query. A statement, is either a logic statement, with $not, $and,
+or $or, or it is a $where statement, or it is a attribute of the document,
+colon, and a 'value'. Values can either be an actual value, or they
+can be a conditional document. A conditional document uses
+$gt, $gte, $lt, $lte, $ne, $in, $nin, $all, $size or $elemMatch, and can
+potentially have many of these (if it makes sense) [separated by commas./mongod]. $in, $nin take lists
+$and and $or take lists of the same statements that make up a query. The
+statements at the top level are not surrounded by curly braces, but the ones
+inside are.
+
+Collections are a list of documents, unless you use .snapshot (which moves
+through ids), you move down the list. If an element in the collection
+changes place, you will have the chance of seeing it many times in the same
+cursor.
+
+INSERT, DELETE, QUERY, UPDATE, UPSERT, AGGREGATE
